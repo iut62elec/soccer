@@ -1,0 +1,27 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-soccer-dev-155144-authRole",
+      "UnauthRoleArn": "arn:aws:iam::456667773660:role/amplify-soccer-dev-155144-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::456667773660:role/amplify-soccer-dev-155144-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-soccer-dev-155144-deployment",
+      "UnauthRoleName": "amplify-soccer-dev-155144-unauthRole",
+      "StackName": "amplify-soccer-dev-155144",
+      "StackId": "arn:aws:cloudformation:us-east-1:456667773660:stack/amplify-soccer-dev-155144/a3843640-cc0f-11ed-a0fa-0ee62134b8f5",
+      "AmplifyAppId": "d2v9bedamtvz5a"
+    },
+    "categories": {
+      "function": {
+        "SoccerStartStepFaunction": {},
+        "SoccerStartSF": {
+          "deploymentBucketName": "amplify-soccer-dev-155144-deployment",
+          "s3Key": "amplify-builds/SoccerStartSF-76483175417863637038-build.zip"
+        }
+      },
+      "api": {
+        "soccer": {}
+      }
+    }
+  }
+}

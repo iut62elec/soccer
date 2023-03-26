@@ -1,0 +1,43 @@
+{
+  "api": {
+    "soccer": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "SoccerStartSF"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "SoccerStartSF": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_SoccerStartSF_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SoccerStartSF"
+        }
+      ]
+    },
+    "AMPLIFY_function_SoccerStartSF_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SoccerStartSF"
+        }
+      ]
+    }
+  }
+}

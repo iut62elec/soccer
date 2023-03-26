@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/filename": {
+      "name": "/filename",
+      "lambdaFunction": "SoccerStartSF",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
