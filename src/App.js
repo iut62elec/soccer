@@ -4,6 +4,8 @@ import axios from "axios";
 function App() {
   const [inputData, setInputData] = useState({ file_name: "" });
   const [showVideo, setShowVideo] = useState(false);
+  const [SFARN, setSFARN] = useState("");
+
   const API_post="https://qnnyj5ljke.execute-api.us-east-1.amazonaws.com/dev/SoccerStartSF-dev"
   const API_GET="https://qnnyj5ljke.execute-api.us-east-1.amazonaws.com/dev/SoccerStartSF-dev"
   const handleInputChange = (e) => {
@@ -22,29 +24,19 @@ function App() {
     e.preventDefault();
     const response = await fetch(API_post, {
     method: 'POST',
-    mode: 'no-cors',
+    mode: 'cors',
     headers: {
-      "Connection":"keep-alive",
-      "User-Agent": "PostmanRuntime/7.31.1",
-      "Content-Type":"text/plain",
-      "Accept":"*/*"
     },
     body: JSON.stringify(inputData),
-    headers: {'Content-Type': 'application/json'}
-    }) .then(response => {
-      console.log(response)}) // return a promise that resolves with the parsed JSON data
-    .then(data => {
-      // handle the parsed JSON data
-      console.log(data);
-    })
+    }).then(resp => resp.json()) // return a promise that resolves with the parsed JSON data
+    .then(data => {console.log(data);setSFARN(data.executionArn)})
     .catch(error => {
       // handle any errors
       console.error('Error fetching data:', error);
     });
-    // console.log(response);
     
   };
-
+  console.log(SFARN)
   useEffect(() => {
     // Replace this with your backend API call to get notification when process finishes
     const checkProcessStatus = async () => {
