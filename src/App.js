@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "@aws-amplify/ui-react/styles.css"; // default theme
+import { Flex, AmplifyProvider } from "@aws-amplify/ui-react";
+import { DataStore } from "@aws-amplify/datastore";
+import { getSFworkflow } from './graphql/queries'
+import {Amplify, API, Auth, graphqlOperation, Storage} from 'aws-amplify'
+import {  withAuthenticator, AmplifyS3Image } from '@aws-amplify/ui-react';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 function App() {
   const [inputData, setInputData] = useState({ file_name: "" });
+  const [videodata, setVideodata] = useState({ "status": "", "final_highlight":"","final_original":""});
   const [showVideo, setShowVideo] = useState(false);
   const [SFARN, setSFARN] = useState("");
 
@@ -33,21 +42,39 @@ function App() {
     .catch(error => {
       // handle any errors
       console.error('Error fetching data:', error);
+
+      
+
     });
     
   };
   console.log(SFARN)
+// now with this execution ARN we can create an API and check the status 
+
+useEffect(()=>{
+ 
+  // API.graphql(graphqlOperation(GetSFworkflow))
+  // .then(response => console.log(response.data))
+  // .then(error => console.log(error))
+  
+},[]);
+
+
   useEffect(() => {
     // Replace this with your backend API call to get notification when process finishes
     const checkProcessStatus = async () => {
-      const response = await fetch('/api/process-status')
+      const response = await API.graphql({ query: getSFworkflow, variables: {input: {id: SFARN}}})
       const data = await response.json();
-      if (data.status === 'finished') {
-        setShowVideo(true);
-      }
-    };
-    //setShowVideo(true)
-    //checkProcessStatus();
+  };
+    
+    // const checkProcessStatus = async () => {
+    //   const response = await fetch('/api/process-status')
+    //   const data = await response.json();
+    //   if (data.status === 'finished') {
+    //     setShowVideo(true);
+    //   }
+    // };
+    checkProcessStatus(); //this should be un-comment, was commented to remove error..
   }, []);
 
   return (
@@ -75,4 +102,5 @@ function App() {
   );
 }
 
-export default App;
+//export default App;
+export default withAuthenticator(App);

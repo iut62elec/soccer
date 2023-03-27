@@ -1,0 +1,7 @@
+type SFworkflow @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  SFARN: String!
+  status: String
+  final_highlight: String
+  final_original: String
+}

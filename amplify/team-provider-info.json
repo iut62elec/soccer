@@ -20,10 +20,11 @@
         }
       },
       "api": {
-        "soccer": {}
+        "soccer": {},
+        "soccergql": {}
       },
       "auth": {
-        "soccer12cd3a2f": {}
+        "soccerf5767e86": {}
       }
     }
   }
