@@ -4,34 +4,58 @@ import axios from "axios";
 function App() {
   const [inputData, setInputData] = useState({ file_name: "" });
   const [showVideo, setShowVideo] = useState(false);
-
+  const API_post="https://qnnyj5ljke.execute-api.us-east-1.amazonaws.com/dev/SoccerStartSF-dev"
+  const API_GET="https://qnnyj5ljke.execute-api.us-east-1.amazonaws.com/dev/SoccerStartSF-dev"
   const handleInputChange = (e) => {
     setInputData({ file_name: e.target.value });
   };
 
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const response = await axios.post(
+  //     API_post,
+  //       inputData
+  //     );
+  //     console.log(response.data); // Response from the backend API
+  // };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "https://qnnyj5ljke.execute-api.us-east-1.amazonaws.com/dev/SoccerStartSF-dev",
-        inputData
-      );
-      console.log(response.data); // Response from the backend API
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(API_post, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      "Connection":"keep-alive",
+      "User-Agent": "PostmanRuntime/7.31.1",
+      "Content-Type":"text/plain",
+      "Accept":"*/*"
+    },
+    body: JSON.stringify(inputData),
+    headers: {'Content-Type': 'application/json'}
+    }) .then(response => {
+      console.log(response)}) // return a promise that resolves with the parsed JSON data
+    .then(data => {
+      // handle the parsed JSON data
+      console.log(data);
+    })
+    .catch(error => {
+      // handle any errors
+      console.error('Error fetching data:', error);
+    });
+    // console.log(response);
+    
   };
+
   useEffect(() => {
     // Replace this with your backend API call to get notification when process finishes
     const checkProcessStatus = async () => {
-      const response = await fetch('/api/process-status');
+      const response = await fetch('/api/process-status')
       const data = await response.json();
       if (data.status === 'finished') {
         setShowVideo(true);
       }
     };
     //setShowVideo(true)
-    checkProcessStatus();
+    //checkProcessStatus();
   }, []);
 
   return (
