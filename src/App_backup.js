@@ -1,14 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-
 import axios from "axios";
 import "@aws-amplify/ui-react/styles.css"; // default theme
 import { Flex, AmplifyProvider } from "@aws-amplify/ui-react";
@@ -20,8 +10,6 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 function App() {
-  const [imageUrl, setImageUrl] = useState("");
-
   const [inputData, setInputData] = useState({ file_name: "" });
   //const [videodata, setVideodata] = useState({ status: "", final_highlight:"",final_original:"",id:""});
   const [showVideo, setShowVideo] = useState(false);
@@ -64,18 +52,7 @@ function App() {
     setSubmitClicked(true);
 
   };
-  useEffect(() => {
-    async function fetchImage() {
-      try {
-        const signedUrl = await Storage.get("soccer_med_ball.jpg");
-        setImageUrl(signedUrl);
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      }
-    }
-
-    fetchImage();
-  },  []);
+  
 
 useEffect(() => {
   let status='';
@@ -115,68 +92,44 @@ useEffect(() => {
 
  
 
-return (
-<Container maxWidth="md" sx={{ paddingTop: (theme) => theme.spacing(4) }}>
-    <Typography variant="h4" align="center" gutterBottom>
-      Soccer Match Highlight Generator
-    </Typography>
-    <Grid container justifyContent="center">
-      <Grid item xs={12} sm={10} md={8}>
-      <img
-        src={imageUrl}
-        alt="Your Image Description"
-        style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
-    />
-      </Grid>
-    </Grid>
-    <form sx={{ marginTop: (theme) => theme.spacing(2) }} onSubmit={handleFormSubmit}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label="File Name"
-        value={inputData.file_name}
-        onChange={handleInputChange}
-      />
-     <Button
-  type="submit"
-  fullWidth
-  variant="contained"
-  color="primary"
-  sx={{ marginTop: (theme) => theme.spacing(2) }}
->
-        Submit
-      </Button>
-    </form>
-    <Box mt={2}>
+  return (
+    <div>
+      <h1>Input Video File name and hit submit!</h1>
+      <form onSubmit={handleFormSubmit}>
+        <label>
+          File Name:
+          <input
+            type="text"
+            value={inputData.file_name}
+            onChange={handleInputChange}
+          />
+        </label>
+        
+        <button type="submit">Submit</button>
+      </form>
+      <br></br>
       {SFARN && (
-        <Typography>Execution ARN: {SFARN}</Typography>
+        <p>Execution ARN: {SFARN}</p>
       )}
       {executionStatus && (
-        <Typography>Execution status: {executionStatus}</Typography>
+        <p>Execution status: {executionStatus}</p>
       )}
-    </Box>
-    <Box mt={4}>
+    <br></br>
       {showVideo ? (
-        <>
-          <Typography variant="h6">Generated Highlights</Typography>
-          <video src={vidhigh} controls style={{ width: "100%" }} />
-        </>
+        <video src={vidhigh} controls />
       ) : (
-        <Typography>Waiting for process to finish...</Typography>
+        <p>Waiting for process to finish...</p>
       )}
-    </Box>
-    <Box mt={4}>
+     
+     <br></br>
       {showVideo ? (
-        <>
-          <Typography variant="h6">Original Video</Typography>
-          <video src={vidorig} controls style={{ width: "100%" }} />
-        </>
+        <video src={vidorig} controls />
       ) : (
-        <Typography>Waiting for process to finish...</Typography>
-      )}
-    </Box>
-  </Container>
-);
+        <p>Waiting for process to finish...</p>
+      )} 
+    </div>
+  );
 }
+
 //export default App;
 export default withAuthenticator(App);

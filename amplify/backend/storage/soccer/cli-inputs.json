@@ -1,0 +1,13 @@
+{
+  "resourceName": "soccer",
+  "policyUUID": "b13de01d",
+  "bucketName": "soccer3960bfd3db5d4da2ae688860b7d1a3dc",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

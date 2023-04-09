@@ -25,6 +25,9 @@
       },
       "auth": {
         "soccerf5767e86": {}
+      },
+      "storage": {
+        "soccer": {}
       }
     }
   }

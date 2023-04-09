@@ -88,5 +88,12 @@
         }
       ]
     }
+  },
+  "storage": {
+    "soccer": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
   }
 }
