@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-
+import { Box, Button, Container, Grid, TextField, Typography, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import axios from "axios";
 import "@aws-amplify/ui-react/styles.css"; // default theme
@@ -21,6 +13,7 @@ Amplify.configure(awsconfig);
 
 function App() {
   const [imageUrl, setImageUrl] = useState("");
+  const [videoList, setVideoList] = useState([]);
 
   const [inputData, setInputData] = useState({ file_name: "" });
   //const [videodata, setVideodata] = useState({ status: "", final_highlight:"",final_original:"",id:""});
@@ -37,6 +30,20 @@ function App() {
     setInputData({ file_name: e.target.value });
   };
 
+  const fetchVideoList = async () => {
+    try {
+      const response = await Storage.list("");
+      const list = response.results;
+      console.log("List:", list);
+      const videoFiles = list
+        .filter((item) => item.key.endsWith(".mp4"))
+        .map((item) => item.key);
+      setVideoList(videoFiles);
+    } catch (error) {
+      console.error("Error fetching video list:", error);
+    }
+  };
+  
   
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +71,8 @@ function App() {
     setSubmitClicked(true);
 
   };
+
+
   useEffect(() => {
     async function fetchImage() {
       try {
@@ -73,7 +82,7 @@ function App() {
         console.error("Error fetching image:", error);
       }
     }
-
+    fetchVideoList();
     fetchImage();
   },  []);
 
@@ -130,13 +139,22 @@ return (
       </Grid>
     </Grid>
     <form sx={{ marginTop: (theme) => theme.spacing(2) }} onSubmit={handleFormSubmit}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label="File Name"
-        value={inputData.file_name}
-        onChange={handleInputChange}
-      />
+    <FormControl fullWidth variant="outlined">
+  <InputLabel htmlFor="file-name">File Name</InputLabel>
+  <Select
+    labelId="file-name-label"
+    id="file-name"
+    value={inputData.file_name}
+    onChange={handleInputChange}
+    label="File Name"
+  >
+    {videoList.map((videoFile) => (
+      <MenuItem key={videoFile} value={videoFile}>
+        {videoFile}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
      <Button
   type="submit"
   fullWidth
